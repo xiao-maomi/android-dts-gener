@@ -4,12 +4,12 @@ import java.util.jar.JarFile
 
 apply plugin: 'java-library'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_9
+targetCompatibility = JavaVersion.VERSION_1_9
 
-def version = "3.0.0"
+def version = "3.1.0"
 
-if(!project.hasProperty("loadedProjectDeps")){
+if (!project.hasProperty("loadedProjectDeps")) {
     Properties projectDeps = new Properties()
     projectDeps.load(new FileInputStream("$project.rootDir/gradle.properties"))
     projectDeps.each { prop ->
@@ -30,7 +30,7 @@ if(!project.hasProperty("loadedProjectDeps")){
 // }
 
 project.ext.extractedDependenciesDir = "jar-files"
-if(project.hasProperty("jarsOutput")) {
+if (project.hasProperty("jarsOutput")) {
     project.ext.extractedDependenciesDir = project.ext.jarsOutput
 }
 
@@ -72,12 +72,12 @@ dependencies {
 
     testCompileOnly "androidx.multidex:multidex:2.0.1"
     testCompileOnly "androidx.legacy:legacy-support-v4:$androidXLegacyVersion"
-    testCompileOnly "androidx.appcompat:appcompat:$androidXAppCompatVersion"
-    testCompileOnly "com.google.android.material:material:$androidXMaterialVersion"
-    testCompileOnly "androidx.exifinterface:exifinterface:$androidXExifInterfaceVersion"
+//    testCompileOnly "androidx.appcompat:appcompat:$androidXAppCompatVersion"
+//    testCompileOnly "com.google.android.material:material:$androidXMaterialVersion"
+//    testCompileOnly "androidx.exifinterface:exifinterface:$androidXExifInterfaceVersion"
     testCompileOnly "androidx.viewpager2:viewpager2:$androidXViewPagerVersion"
-    testCompileOnly "androidx.fragment:fragment:$androidXFragmentVersion"
-    testCompileOnly "androidx.transition:transition:$androidXTransitionVersion"
+//    testCompileOnly "androidx.fragment:fragment:$androidXFragmentVersion"
+//    testCompileOnly "androidx.transition:transition:$androidXTransitionVersion"
 }
 
 jar {
@@ -85,8 +85,8 @@ jar {
     configurations.implementation.setCanBeResolved(true)
     from configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) }
     from('src/main/resources') {
-      include 'generics.txt'
-   }
+        include 'generics.txt'
+    }
     //set main class for the jar
     manifest {
         attributes 'Main-Class': 'com.telerik.Main'
@@ -97,7 +97,7 @@ jar {
     duplicatesStrategy = 'include'
 }
 
-task copyJarToBuildTools (type: Copy) {
+task copyJarToBuildTools(type: Copy) {
     from "$projectDir/build/libs/dts-generator.jar"
     into "$rootDir/build-tools"
 }
